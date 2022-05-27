@@ -7,15 +7,16 @@ import argparse
 
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
 
-parser.add_argument('--data_path', default='/netapp/data/cars/CompCars/data/',
+parser.add_argument('--data_path', default='../CompCars/data/',
                     help='path to dataset')
 parser.add_argument('--annotation_path', default='annotation/',
                     help='path to save annotation')
 
+
 def main():
     args = parser.parse_args()
-    img_path = args.data_path + 'image/'
-    label_path = args.data_path + 'label/'
+    img_path = os.path.join(args.data_path, 'image/')
+    label_path = os.path.join(args.data_path, 'label/')
 
     filelist = []
     for root, dirs, files in os.walk(img_path):
@@ -32,8 +33,8 @@ def main():
 
     filelist = [x.replace(img_path, '') for x in filelist]
 
-    full_data = pd.DataFrame(columns=['image_name'], data=np.array(filelist).T)
-    full_data['class'] = full_data['image_name'].apply(lambda x: x.split('/')[1]).astype(int)
+    full_data = pd.DataFrame(columns=['img_path'], data=np.array(filelist).T)
+    full_data['class'] = full_data['img_path'].apply(lambda x: x.split('/')[1]).astype(int)
 
     le = preprocessing.LabelEncoder()
     le.fit(full_data['class'].values)
@@ -60,17 +61,19 @@ def main():
 
     print(full_data)
 
+    np.random.seed(42)
     full_data = full_data.sample(frac=1)
     train = full_data[:int(0.9*len(full_data))]
     val = full_data[int(0.9*len(full_data)):]
 
-    print(len(train), len(val))
+    print(f'Train size: {len(train)}, Val size: {len(val)}')
 
     if not os.path.isdir(args.annotation_path):
         os.mkdir(args.annotation_path)
 
-    train[['image_name', 'x_1', 'y_1', 'x_2', 'y_2', 'class']].to_csv(args.annotation_path + 'train.txt', index=False)
-    val[['image_name', 'x_1', 'y_1', 'x_2', 'y_2', 'class']].to_csv(args.annotation_path + 'val.txt', index=False)
+    train[['img_path', 'x_1', 'y_1', 'x_2', 'y_2', 'class']].to_csv(args.annotation_path + 'train.txt', index=False)
+    val[['img_path', 'x_1', 'y_1', 'x_2', 'y_2', 'class']].to_csv(args.annotation_path + 'val.txt', index=False)
+
 
 if __name__ == '__main__':
     main()

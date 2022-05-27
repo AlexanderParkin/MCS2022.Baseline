@@ -12,15 +12,17 @@ If you have problems getting box labels in datasets, you can use a duplicate of 
 ### 1. Prepare data for classification
 Launch `prepare_data.py` to crop images on bboxes and generate lists for training and validation phases.
 ```bash
-python prepare_data.py --data_path ./data/CompCars/ --annotation_path ./data/annotation/
+python prepare_data.py --data_path ../CompCars/data/ --annotation_path ../CompCars/annotation/
 ```
 
 ### 2. Run model training
-```bash
-CUDA_VISIBLE_DEVICES=0 python main.py -a resnet18  \
-                                      --root './data/image/' \
-                                      --train_file ./data/annotation/train.txt \
-                                      --val_file ./annotation/val.txt \
-                                      --pretrained
+```bash                         
+CUDA_VISIBLE_DEVICES=0 python main.py --cfg config/baseline_mcs.yml
 ```
 ### 3. Create a submission file
+
+```bash
+CUDA_VISIBLE_DEVICES=0 python create_submission.py --exp_cfg config/baseline_mcs.yml \
+                                                   --checkpoint_path experiments/baseline_mcs/model_0077.pth \
+                                                   --inference_cfg config/inference_config.yml
+```
