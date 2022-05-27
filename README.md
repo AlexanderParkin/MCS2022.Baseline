@@ -1,5 +1,5 @@
 # Baseline for MCS2022.Car models verification competition
-
+![Alt text](figures/pipeline.png?raw=true "Baseline pipeline")
 This is a repository with a baseline solution for the MCS2022. Cars verification competition. In this competition, participants need to train a model to verify car models (models are the same, not the same car).
 
 The idea of the basic solution is to train a classifier of car models, remove the classification layer and use embeddings to measure the proximity between two images.
