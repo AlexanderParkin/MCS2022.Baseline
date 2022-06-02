@@ -107,15 +107,3 @@ def get_max_bbox(bboxes):
     bbox_sizes = [x[2] * x[3] for x in bboxes]
     max_bbox_index = np.argmax(bbox_sizes)
     return bboxes[max_bbox_index]
-
-
-def load_resnet(path, model_type, num_classes, device='cuda'):
-    if model_type == 'resnet34' or model_type == 'resnet34':
-        model = models.resnet34(pretrained=False)
-        model.fc = torch.nn.Linear(512, num_classes)
-        model.load_state_dict(torch.load(path, map_location='cpu')["state_dict"])
-    else:
-        raise Exception("Unknown model type: {}".format(model_type))
-    model.to(device)
-    model.eval()
-    return model
