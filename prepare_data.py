@@ -33,8 +33,8 @@ def main():
 
     filelist = [x.replace(img_path, '') for x in filelist]
 
-    full_data = pd.DataFrame(columns=['img_path'], data=np.array(filelist).T)
-    full_data['class'] = full_data['img_path'].apply(lambda x: x.split('/')[1]).astype(int)
+    full_data = pd.DataFrame(columns=['image_name'], data=np.array(filelist).T)
+    full_data['class'] = full_data['image_name'].apply(lambda x: x.split('/')[1]).astype(int)
 
     le = preprocessing.LabelEncoder()
     le.fit(full_data['class'].values)
@@ -71,8 +71,8 @@ def main():
     if not os.path.isdir(args.annotation_path):
         os.mkdir(args.annotation_path)
 
-    train[['img_path', 'x_1', 'y_1', 'x_2', 'y_2', 'class']].to_csv(args.annotation_path + 'train.txt', index=False)
-    val[['img_path', 'x_1', 'y_1', 'x_2', 'y_2', 'class']].to_csv(args.annotation_path + 'val.txt', index=False)
+    train[['image_name', 'x_1', 'y_1', 'x_2', 'y_2', 'class']].to_csv(args.annotation_path + 'train.txt', index=False)
+    val[['image_name', 'x_1', 'y_1', 'x_2', 'y_2', 'class']].to_csv(args.annotation_path + 'val.txt', index=False)
 
 
 if __name__ == '__main__':

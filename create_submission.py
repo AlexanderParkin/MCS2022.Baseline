@@ -4,16 +4,16 @@ import sys
 import yaml
 from collections import OrderedDict
 
-from tqdm import tqdm
 import numpy as np
 import pandas as pd
-import torch
 import torchvision.models as models
+from tqdm import tqdm
+import torch
 from sklearn.preprocessing import normalize
 
-from utils import convert_dict_to_tuple
 from data.dataset import CarsDataset
 from data.augmentations import get_val_aug
+from utils import convert_dict_to_tuple
 
 
 def main(args: argparse.Namespace) -> None:
@@ -42,9 +42,9 @@ def main(args: argparse.Namespace) -> None:
     print('Weights are loaded, fc layer is deleted')
 
     test_dataset = CarsDataset(root=inference_cfg.root,
-                        annotation_file=inference_cfg.test_list,
-                        transforms=get_val_aug(exp_cfg),
-                        is_inference=True)
+                               annotation_file=inference_cfg.test_list,
+                               transforms=get_val_aug(exp_cfg),
+                               is_inference=True)
 
     test_loader = torch.utils.data.DataLoader(
             test_dataset,

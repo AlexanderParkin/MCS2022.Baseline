@@ -17,7 +17,7 @@ def read_image(image_file):
 class CarsDataset(data.Dataset):
     def __init__(self, root, annotation_file, transforms, is_inference=False):
         self.root = root
-        self.imlist = pd.read_csv(annotation_file)
+        self.imlist = pd.read_csv(annotation_file).values.tolist()
         self.transforms = transforms
         self.is_inference = is_inference
 
